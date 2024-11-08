@@ -1,0 +1,27 @@
+# Fase de construcción
+FROM node:14 as build
+
+# Establecer directorio de trabajo
+WORKDIR /etec-pi-2024-frontend-drolito123
+
+# Copiar archivos de dependencias y instalar
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copiar el código fuente
+COPY . .
+
+# Construir la aplicación para producción
+RUN npm run build
+
+# Fase de ejecución
+FROM nginx:alpine
+
+# Copiar el build de React al directorio de servicio de nginx
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Exponer el puerto para el servidor nginx
+EXPOSE 80
+
+# Comando por defecto para iniciar nginx
+CMD ["nginx", "-g", "daemon off;"]

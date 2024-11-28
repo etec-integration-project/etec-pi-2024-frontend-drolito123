@@ -5,8 +5,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+RUN npm install -g serve
 EXPOSE 3000
 RUN npm run build
+CMD ["serve", "-s", "build"]
 
 # Fase de producción
 # FROM nginx:alpine

@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../context/userContext.js"; // Importar el contexto
+import { useUser } from "../../context/userContext.js"; // Importar el contexto
 import "./header.css";
 import logo from "../../multimedia/RHEIN.png";
 
 export default function Header() {
-    const { user, logout } = useContext(UserContext); // Obtener el usuario del contexto
+    const { user, logout } = useUser(); // Obtener el usuario del contexto
 
     return (
         <header className="header">

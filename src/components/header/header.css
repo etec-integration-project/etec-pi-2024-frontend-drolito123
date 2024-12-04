@@ -56,3 +56,24 @@
 .cart i {
     font-size: 1.2rem;
 }
+
+.user-greeting {
+    margin-right: 15px;
+    color: #006400; /* Verde Lacoste */
+    font-weight: bold;
+}
+
+.logout-button {
+    background: transparent;
+    border: 1px solid #006400;
+    color: #006400;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.logout-button:hover {
+    background: #006400;
+    color: white;
+}
+

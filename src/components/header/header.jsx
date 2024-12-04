@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../context/userContext.js"; // Importar el contexto
 import "./header.css";
 import logo from "../../multimedia/RHEIN.png";
 
 export default function Header() {
+    const { user, logout } = useContext(UserContext); // Obtener el usuario del contexto
+
     return (
         <header className="header">
             <div className="logo-title">
@@ -19,11 +22,27 @@ export default function Header() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/productos">Productos</Link>
+                        <Link to="/shirtlist">Productos</Link>
                     </li>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
+                    {user ? ( // Si el usuario está logeado
+                        <>
+                            <li className="user-greeting">
+                                Hola, {user.username}
+                            </li>
+                            <li>
+                                <button 
+                                    onClick={logout} 
+                                    className="logout-button"
+                                >
+                                    Logout
+                                </button>
+                            </li>
+                        </>
+                    ) : ( // Si no está logeado
+                        <li>
+                            <Link to="/login">Login</Link>
+                        </li>
+                    )}
                     <li>
                         <Link to="/cart" className="cart">
                             <i className="fas fa-shopping-cart"></i>

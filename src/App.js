@@ -6,7 +6,7 @@ import Home from "./components/main/main.jsx";
 import Login from "./components/auth/Login.jsx"; // Importar Login
 import Register from "./components/auth/Register.jsx"; // Importar Register
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { UserProvider } from "./context/userContext.js"; // Importar UserProvider
+import { UserProvider, useUser } from "./context/userContext.js"; // Importar UserProvider
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
           {/* Ruta Login */}
           <Route path="/login" element={<>
             <Header />
-            <Login />
+            <WrappedLogin />
             <Footer />
           </>} />
 
@@ -46,5 +46,9 @@ function App() {
   );
 }
 
-export default App;
+function WrappedLogin() {
+  const { setUser } = useUser();
+  return <Login setUser={setUser} />;
+}
 
+export default App;

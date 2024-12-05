@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./ProductHeader.css"; // Puedes crear un CSS específico para este header
+import "./header.css";
 
 export default function ProductHeader() {
     return (

@@ -8,6 +8,9 @@ import Register from "./components/auth/Register.jsx"; // Importar Register
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider, useUser } from "./context/userContext.js"; // Importar UserProvider
 import ProductList from "./components/products/ProductList.jsx";
+import ProductHeader from "./components/header/ProductHeader.jsx";
+import Cart from "./components/carrito/cart.js";
+
 
 function App() {
   return (
@@ -43,9 +46,13 @@ function App() {
           </>} />
 
           <Route path="/products" element={<>
-            <Header />
+            <ProductHeader />
             <ProductList />
             <Footer />
+          </>} />
+
+          <Route path="/cart" element={<>
+            <Cart />
           </>} />
         </Routes>
       </BrowserRouter>

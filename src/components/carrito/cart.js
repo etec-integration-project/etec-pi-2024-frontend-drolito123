@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./cart.css";
+import "../products/ProductList.css";
 import axios from 'axios';
 
 const Cart = () => {
@@ -68,7 +68,7 @@ const Cart = () => {
             <div className="item-properties" key={product.id}>
                 <div className="cartContent" key={product.id}>
                     <img src={product.img} alt="product-card" />
-                    <h3 className="name">{product.name}</h3>
+                    <h3 className="name">{product.quantity} x {product.name}</h3>
                     <h4 className="price">{product.price * product.quantity}$</h4>
                     <button onClick={() => eliminarProducto(product.id)}>Eliminar</button>
                     <button onClick={() => restarUnaUnidad(product.id)}>Sacar uno</button>

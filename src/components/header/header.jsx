@@ -22,7 +22,7 @@ export default function Header() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/shirtlist">Productos</Link>
+                        <Link to="/products">Productos</Link>
                     </li>
                     {user ? ( // Si el usuario está logeado
                         <>

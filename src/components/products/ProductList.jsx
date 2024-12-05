@@ -4,7 +4,7 @@ import axios from "axios";
 import "./ProductList.css"
 
 
-export default ProductList = ({ allProducts, setAllProducts }) => {
+const ProductList = ({ allProducts, setAllProducts }) => {
     const [data, setData] = useState([]);
 
     useEffect( () =>{
@@ -55,8 +55,8 @@ export default ProductList = ({ allProducts, setAllProducts }) => {
         <div className="product-list">
             <h2>Productos</h2>
             <div className="products-container">
-                {products.length > 0 ? (
-                    products.map((product) => (
+                {data.length > 0 ? (
+                    data.map((product) => (
                         <div key={product.id} className="product-card">
                             <img 
                                 src={product.imageUrl || "https://via.placeholder.com/150"} 
@@ -76,3 +76,5 @@ export default ProductList = ({ allProducts, setAllProducts }) => {
         </div>
     );
 };
+
+export default ProductList;

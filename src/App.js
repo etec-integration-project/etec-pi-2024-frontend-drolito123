@@ -53,6 +53,7 @@ function App() {
 
           <Route path="/cart" element={<>
             <Cart />
+            <Footer />
           </>} />
         </Routes>
       </BrowserRouter>

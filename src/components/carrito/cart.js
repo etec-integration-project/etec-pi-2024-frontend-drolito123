@@ -58,6 +58,7 @@ const Cart = () => {
             name: p.nameProduct
         }))
 
+        console.log(user.id);
         fetch('http://localhost:3001/api/buy', {
             method: 'POST',
             headers: {

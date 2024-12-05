@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import "../products/ProductList.css";
 import axios from 'axios';
+import { useUser } from "../../context/userContext";
 
 const Cart = () => {
     const [cart, setCart] = useState([]);
+    const { user } = useUser();
 
     useEffect(() => {
         const products = JSON.parse(localStorage.getItem('products')) || [];
         setCart(products);
     }, []);
-
+    
     const updateCart = (updatedCart) => {
         setCart(updatedCart);
         localStorage.setItem('products', JSON.stringify(updatedCart));
@@ -56,12 +58,15 @@ const Cart = () => {
             name: p.nameProduct
         }))
 
-        fetch('/app/autenticacion/compraCarrito', {
+        fetch('http://localhost:3001/api/buy', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({cart: JSON.stringify(carrito)}),
+            body: {
+                cart: JSON.stringify({cart: JSON.stringify(carrito)}),
+                user_id: user.id
+            },
             credentials: 'include'
         })
             .then(res => res.json())

@@ -7,6 +7,7 @@ import Login from "./components/auth/Login.jsx"; // Importar Login
 import Register from "./components/auth/Register.jsx"; // Importar Register
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider, useUser } from "./context/userContext.js"; // Importar UserProvider
+import ProductList from "./components/products/ProductList.jsx";
 
 function App() {
   return (
@@ -38,6 +39,12 @@ function App() {
           <Route path="/register" element={<>
             <Header />
             <Register />
+            <Footer />
+          </>} />
+
+          <Route path="/products" element={<>
+            <Header />
+            <ProductList />
             <Footer />
           </>} />
         </Routes>

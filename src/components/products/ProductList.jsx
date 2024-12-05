@@ -41,9 +41,9 @@ const ProductList = ({ allProducts, setAllProducts }) => {
         } else {
             products.push({
                 id: product.id,
-                name: product.nameProduct,
+                name: product.name,
                 price: product.price,
-                img: product.urlImage,
+                img: product.imageUrl,
                 quantity: 1
             })
         }

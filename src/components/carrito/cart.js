@@ -1,93 +1,83 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from "react";
+import "../CartContent/CartContent.css";
+import "./cart.css";
 import axios from 'axios';
-import './cart.css'; 
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState([]);
 
-  // Obtener el carrito al cargar la página
-  useEffect(() => {
-    fetchCart();
-  }, []);
+    useEffect(() => {
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        setCart(products);
+    }, []);
 
-  const fetchCart = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/cart');
-      setCart(response.data);
-    } catch (error) {
-      console.error('Error al obtener el carrito:', error);
+    const updateCart = (updatedCart) => {
+        setCart(updatedCart);
+        localStorage.setItem('products', JSON.stringify(updatedCart));
+    };
+
+    const eliminarProducto = (id) => {
+        const updatedCart = cart.filter(product => product.id !== id);
+        updateCart(updatedCart);
+    };
+
+    const restarUnaUnidad = (id) => {
+        const updatedCart = cart.map(product => {
+            if (product.id === id) {
+                return { ...product, quantity: product.quantity - 1 };
+            }
+            return product;
+        }).filter(product => product.quantity > 0); 
+
+        updateCart(updatedCart);
+    };
+
+
+    function RealizarCompra() {
+        //if (!document.cookie.split("=")[0] == "santos-app"){
+        //    alert("Debes iniciar sesión para realizar una compra");
+        //    return;
+        //}
+        let cart = JSON.parse(localStorage.getItem('products'))
+        let carrito = []
+        
+        cart.map(p => carrito.push({
+            id: p.id,
+            total: +(p.quantity) * +(p.price),
+            name: p.nameProduct
+        }))
+
+        fetch('/app/autenticacion/compraCarrito', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({cart: JSON.stringify(carrito)}),
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.msg) {
+                    localStorage.setItem('products', JSON.stringify([]))
+                    alert('Compra realizada')
+                }
+            })
     }
-  };
 
-  const addToCart = async (id) => {
-    try {
-      const product = cart.find((item) => item.id === id);
-      await axios.put(`http://localhost:3001/api/cart/update/${id}`, {
-        quantity: product.quantity + 1,
-      });
-      fetchCart(); // Actualiza el carrito
-    } catch (error) {
-      console.error('Error al aumentar cantidad:', error);
-    }
-  };
-
-  const removeFromCart = async (id) => {
-    try {
-      const product = cart.find((item) => item.id === id);
-      if (product.quantity > 1) {
-        await axios.put(`http://localhost:3001/api/cart/update/${id}`, {
-          quantity: product.quantity - 1,
-        });
-      } else {
-        await axios.put(`http://localhost:3001/api/cart/update/${id}`, {
-          quantity: 0,
-        });
-      }
-      fetchCart();
-    } catch (error) {
-      console.error('Error al disminuir cantidad:', error);
-    }
-  };
-
-  const clearCart = async () => {
-    try {
-      await axios.delete('http://localhost:3001/api/cart/clear');
-      fetchCart();
-    } catch (error) {
-      console.error('Error al vaciar el carrito:', error);
-    }
-  };
-
-  return (
-    <div className="cart-container">
-      <h1>Tu Carrito</h1>
-      {cart?.length === 0 ? (
-        <p>Tu carrito está vacío.</p>
-      ) : (
-        <div className="cart-list">
-          {cart.map((item) => (
-            <div key={item.id} className="cart-item">
-              <p>{item.name}</p>
-              <p>Precio: ${item.price}</p>
-              <div className="cart-actions">
-                <button onClick={() => removeFromCart(item.id)}>-</button>
-                <span>{item.quantity}</span>
-                <button onClick={() => addToCart(item.id)}>+</button>
-              </div>
+    return (<>
+        {cart.map((product) => (
+            <div className="item-properties" key={product.id}>
+                <div className="cartContent" key={product.id}>
+                    <img src={product.img} alt="product-card" />
+                    <h3 className="name">{product.name}</h3>
+                    <h4 className="price">{product.price * product.quantity}$</h4>
+                    <button onClick={() => eliminarProducto(product.id)}>Eliminar</button>
+                    <button onClick={() => restarUnaUnidad(product.id)}>Sacar uno</button>
+                </div>
             </div>
-          ))}
-        </div>
-      )}
-      {cart?.length > 0 && (
-        <div className="cart-buttons">
-          <button onClick={clearCart} className="clear-cart">
-            Vaciar Carrito 🗑️
-          </button>
-          <button className="checkout-button">Comprar</button>
-        </div>
-      )}
-    </div>
-  );
+        ))}
+        <button onClick={() => RealizarCompra()}>Realizar compra</button>
+    </>)
 };
 
 export default Cart;

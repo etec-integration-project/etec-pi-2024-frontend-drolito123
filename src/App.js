@@ -13,6 +13,7 @@ import Cart from "./components/carrito/cart.js";
 
 
 function App() {
+  localStorage.setItem("productos", JSON.stringify({}))
   return (
     <UserProvider> {/* Proveedor del contexto */}
       <BrowserRouter>

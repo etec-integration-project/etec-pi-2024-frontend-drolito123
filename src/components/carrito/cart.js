@@ -30,6 +30,16 @@ const Cart = () => {
 
         updateCart(updatedCart);
     };
+    const sumarUnaUnidad = (id) => {
+        const updatedCart = cart.map(product => {
+            if (product.id === id) {
+                return { ...product, quantity: product.quantity + 1 };
+            }
+            return product;
+        }).filter(product => product.quantity > 0); 
+
+        updateCart(updatedCart);
+    };
 
 
     function RealizarCompra() {
@@ -71,6 +81,7 @@ const Cart = () => {
                     <h3 className="name">{product.quantity} x {product.name}</h3>
                     <h4 className="price">{product.price * product.quantity}$</h4>
                     <button onClick={() => eliminarProducto(product.id)}>Eliminar</button>
+                    <button onClick={() => sumarUnaUnidad(product.id)}>Sumar uno</button>
                     <button onClick={() => restarUnaUnidad(product.id)}>Sacar uno</button>
                 </div>
             </div>

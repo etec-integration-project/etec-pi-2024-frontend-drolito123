@@ -4,7 +4,7 @@ import axios from "axios";
 import "./ProductList.css"
 
 
-export const ProductList = ({ allProducts, setAllProducts }) => {
+export default ProductList = ({ allProducts, setAllProducts }) => {
     const [data, setData] = useState([]);
 
     useEffect( () =>{

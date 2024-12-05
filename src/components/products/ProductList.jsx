@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect} from 'react';
 import axios from "axios";
-import "./productos.css"
+import "./ProductList.css"
 
 
 export const ProductList = ({ allProducts, setAllProducts }) => {

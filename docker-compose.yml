@@ -9,45 +9,43 @@ services:
       dockerfile: Dockerfile
     container_name: backend-app
     ports:
-      - "3001:3001"  # Opción de exponerlo para pruebas directas
+      - "3001:3001"
     environment:
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=123456
       - DB_NAME=DB
+      - JWT_SECRET=mysecretkey
     networks:
       - pensado-app
 
   db:
     image: mysql:8.0
     container_name: db
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: DB
     ports:
-      - "3306:3306"  # Opción de exponerlo para pruebas directas
+      - "3306:3306"
     networks:
       - pensado-app
     volumes:
       - db_data:/var/lib/mysql
 
   frontend-app:
-    restart: always
     build:
       context: https://github.com/etec-integration-project/etec-pi-2024-frontend-drolito123.git
       dockerfile: Dockerfile
     container_name: frontend-app
     ports:
-      - "3000:3000"  # Opción de exponerlo para pruebas directas
+      - "3000:3000"
     networks:
       - pensado-app
     depends_on:
       - backend-app
 
   proxy:
-    restart: always
-    build:
+    build: 
       context: https://github.com/etec-integration-project/etec-pi-2024-proxy-drolito123.git
       dockerfile: Dockerfile
     container_name: proxy

@@ -12,11 +12,10 @@ function Login({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/login", {
-        email,
-        password,
-      });
-      setUser(response.data.username); // Guarda el usuario logeado
+      const response = await axios.post("/api/login", { email, password });
+      // Guardar token en localStorage
+      localStorage.setItem("token", response.data.token);
+      setUser(response.data.username); // Guarda el usuario logeado en estado global
       navigate("/"); // Redirige al home
     } catch (err) {
       setError("Credenciales incorrectas. Por favor, inténtalo de nuevo.");

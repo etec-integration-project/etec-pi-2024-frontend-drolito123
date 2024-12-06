@@ -13,11 +13,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/register", {
-        username,
-        email,
-        password,
-      });
+      await axios.post("/api/register", { username, email, password });
       setSuccess(true);
       setTimeout(() => navigate("/login"), 2000); // Redirige al login después de 2 segundos
     } catch (err) {

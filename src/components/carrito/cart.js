@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import "../products/ProductList.css";
 import axios from 'axios';
-import { useUser } from "../../context/userContext";
 
 const Cart = () => {
     const [cart, setCart] = useState([]);
-    const { user } = useUser();
 
     useEffect(() => {
         const products = JSON.parse(localStorage.getItem('products')) || [];
@@ -45,34 +43,22 @@ const Cart = () => {
 
 
     function RealizarCompra() {
-        //if (!document.cookie.split("=")[0] == "santos-app"){
-        //    alert("Debes iniciar sesión para realizar una compra");
-        //    return;
-        //}
         let cart = JSON.parse(localStorage.getItem('products'))
         let carrito = []
         
         cart.map(p => carrito.push({
             id: p.id,
             total: +(p.quantity) * +(p.price),
-            name: p.nameProduct
+            name: p.nameProduct,
+            quantity: p.quantity
         }))
 
-        console.log(user.id);
-        fetch('http://localhost:3001/api/buy', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: {
-                cart: JSON.stringify({cart: JSON.stringify(carrito)}),
-                user_id: user.id
-            },
-            credentials: 'include'
+        axios.post("/api/protected/buy", {
+            cart: JSON.stringify(carrito)
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data.msg) {
+            .then((res) => res.data)
+            .then((res) => {
+                if (res.message) {
                     localStorage.setItem('products', JSON.stringify([]))
                     alert('Compra realizada')
                 }

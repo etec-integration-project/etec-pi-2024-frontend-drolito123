@@ -35,7 +35,7 @@ function App() {
           {/* Ruta Login */}
           <Route path="/login" element={<>
             <Header />
-            <WrappedLogin />
+            <Login />
             <Footer />
           </>} />
 
@@ -60,11 +60,6 @@ function App() {
       </BrowserRouter>
     </UserProvider>
   );
-}
-
-function WrappedLogin() {
-  const { setUser } = useUser();
-  return <Login setUser={setUser} />;
 }
 
 export default App;

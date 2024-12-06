@@ -26,10 +26,7 @@ const ProductList = ({ allProducts, setAllProducts }) => {
 
 
     function addToCart (product){
-
-
         const products = JSON.parse(localStorage.getItem('products'))
-        console.log(products, product);
         const isInProducts = products.some(p => p.id === product.id);
 
         if (isInProducts) {

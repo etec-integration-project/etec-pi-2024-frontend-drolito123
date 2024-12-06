@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./logyres.css";
 
-function Login({ setUser }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -13,9 +13,8 @@ function Login({ setUser }) {
     e.preventDefault();
     try {
       const response = await axios.post("/api/login", { email, password });
-      // Guardar token en localStorage
-      localStorage.setItem("token", response.data.token);
-      setUser(response.data.username); // Guarda el usuario logeado en estado global
+      console.log(response.data.token);
+      alert(response.data.message);
       navigate("/"); // Redirige al home
     } catch (err) {
       setError("Credenciales incorrectas. Por favor, inténtalo de nuevo.");

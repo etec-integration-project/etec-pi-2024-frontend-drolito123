@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../../context/userContext.js"; // Importar el contexto
 import "./header.css";
 import logo from "../../multimedia/RHEIN.png";
 
 export default function Header() {
-    const { user, logout } = useUser(); // Obtener el usuario del contexto
+    const { user, logout } = useUser();
 
     return (
         <header className="header">
@@ -27,7 +27,7 @@ export default function Header() {
                     {user ? ( // Si el usuario está logeado
                         <>
                             <li className="user-greeting">
-                                Hola, {user.username}
+                                Hola, {user}
                             </li>
                             <li>
                                 <button 
